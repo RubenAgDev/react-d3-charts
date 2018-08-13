@@ -1,10 +1,11 @@
 import React from 'react';
-import Chart from './chart';
+import Chart from './Chart';
 import * as d3 from 'd3';
-import WorldCountries from './world_countries.js';
+import WorldCountries from '../rsc/world_countries.js';
 import * as topojson from 'topojson';
+import PropTypes from 'prop-types';
 
-const map = (props) => {
+const MapChart = (props) => {
     // Formating the value in the chart using D3
     const valueFormat = d3.format(props.valueFormat);
 
@@ -71,7 +72,7 @@ const map = (props) => {
         );
     }
 
-    return (
+    return Chart(
         <g className='map-chart'>
             <rect className='m-c-background' width={props.width} height={props.height} />
             <g>
@@ -85,15 +86,14 @@ const map = (props) => {
     );
 }
 
-var MapChart = Chart(map);
-
 MapChart.displayName = 'MapChart';
 
 MapChart.propTypes = {
-    accessor: React.PropTypes.func.isRequired,
-    ticks: React.PropTypes.number,
-    valueAccessor: React.PropTypes.func.isRequired,
-    valueFormat: React.PropTypes.string.isRequired
+    accessor: PropTypes.func.isRequired,
+    data: PropTypes.any.isRequired,
+    ticks: PropTypes.number,
+    valueAccessor: PropTypes.func.isRequired,
+    valueFormat: PropTypes.string.isRequired
 }
 
 export default MapChart;

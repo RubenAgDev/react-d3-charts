@@ -1,9 +1,10 @@
 import * as d3 from 'd3';
-import Axis from './axis';
-import Chart from './chart';
+import Axis from './Axis';
+import Chart from './Chart';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const run = (props) => {
+const RunChart = (props) => {
     const percentageFormat = d3.format('.0%');
     const upIcon = "<i class='fa fa-chevron-up' aria-hidden='true'></i>";
     const downIcon = "<i class='fa fa-chevron-down' aria-hidden='true'></i>";
@@ -100,7 +101,7 @@ const run = (props) => {
         );
     };
 
-    return (
+    return Chart(
         <g className="run-chart">
             {xAxis()}
             {yAxis()}            
@@ -112,16 +113,15 @@ const run = (props) => {
     );
 };
 
-var RunChart = Chart(run);
-
 RunChart.displayName = 'RunChart';
 
 RunChart.propTypes = {
-    dateAccessor: React.PropTypes.func.isRequired,
-    dateFormat: React.PropTypes.string.isRequired,
-    endDate: React.PropTypes.any.isRequired,
-    startDate: React.PropTypes.any.isRequired,
-    valueAccessor: React.PropTypes.func.isRequired
+    data: PropTypes.any.isRequired,
+    dateAccessor: PropTypes.func.isRequired,
+    dateFormat: PropTypes.string.isRequired,
+    endDate: PropTypes.any.isRequired,
+    startDate: PropTypes.any.isRequired,
+    valueAccessor: PropTypes.func.isRequired
 };
 
 export default RunChart;

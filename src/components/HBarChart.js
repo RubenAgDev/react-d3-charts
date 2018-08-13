@@ -1,8 +1,9 @@
 import * as d3 from 'd3';
-import Chart from './chart';
+import Chart from './Chart';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const HBar = (props) => {
+const HBarChart = (props) => {
     //Relative to the width of the SVG, sets the range of the scale:
     const minRangeValue = props.width * 0.20;
     const maxRangeValue = props.width * 0.65;
@@ -26,7 +27,7 @@ const HBar = (props) => {
 
     const valueFormat = d3.format(props.valueFormat);
 
-    return (
+    return Chart(
         <g className="h-bar-chart">
             { props.data.map((d, index) => {
                 return <g 
@@ -65,15 +66,14 @@ const HBar = (props) => {
     );
 };
 
-var HBarChart = Chart(HBar);
-
 HBarChart.displayName = 'HBarChart';
 
 HBarChart.propTypes = {
-    barHeight: React.PropTypes.number,
-    tagAccessor: React.PropTypes.func.isRequired,
-    valueAccessor: React.PropTypes.func.isRequired,
-    valueFormat: React.PropTypes.string.isRequired
+    barHeight: PropTypes.number,
+    data: PropTypes.any.isRequired,
+    tagAccessor: PropTypes.func.isRequired,
+    valueAccessor: PropTypes.func.isRequired,
+    valueFormat: PropTypes.string.isRequired
 }
 
 export default HBarChart;

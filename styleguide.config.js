@@ -2,21 +2,20 @@ const path = require('path');
 const webpackConfig = require('./webpack.dev.config.js');
 
 module.exports = {
-    assetsDir: `${__dirname}/docs/static/`,
     title: 'Documentation',
     webpackConfig,
     getExampleFilename(componentPath) {
-        const filename = path.basename(componentPath).replace(/\.jsx?$/, '.md');
+        const filename = path.basename(componentPath).replace(/\.js?$/, '.md');
         return `${__dirname}/docs/samples/${filename}`;
     },
     sections: [
         {
-            name: 'Introduction',
+            name: 'Documentation',
             content: 'README.md',
         },
         {
             name: 'Components',
-            components: 'src/components/**/*.jsx',
+            components: 'src/components/**/*.js',
         },
     ],
     ribbon: {

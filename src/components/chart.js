@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from './chart.css';
+import styles from '../rsc/chart.css';
+import PropTypes from 'prop-types';
 
 const getDisplayName = (WrappedChart) => {
   return WrappedChart.displayName || WrappedChart.name || 'Component';
@@ -61,10 +62,9 @@ export default (WrappedChart) => {
     Chart.displayName = `Chart(${getDisplayName(WrappedChart)})`;
 
     Chart.propTypes = {
-        data: React.PropTypes.any.isRequired,
-        height: React.PropTypes.number.isRequired,
-        margin: React.PropTypes.object,
-        width: React.PropTypes.number.isRequired
+        height: PropTypes.number.isRequired,
+        margin: PropTypes.object,
+        width: PropTypes.number.isRequired
     };
 
     return Chart;

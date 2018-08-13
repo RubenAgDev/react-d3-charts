@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Axis extends React.Component {
     componentDidMount() {
@@ -52,12 +53,12 @@ class Axis extends React.Component {
 }
 
 Axis.propTypes = {
-    className: React.PropTypes.string.isRequired,
-    orient: React.PropTypes.string.isRequired,
-    scale: React.PropTypes.func.isRequired,
-    tickFormat: React.PropTypes.func,
-    tickSize: React.PropTypes.number.isRequired,
-    translate: React.PropTypes.string
+    className: PropTypes.string.isRequired,
+    orient: PropTypes.string.isRequired,
+    scale: PropTypes.func.isRequired,
+    tickFormat: PropTypes.func,
+    tickSize: PropTypes.number.isRequired,
+    translate: PropTypes.string
 };
 
 export default Axis;
