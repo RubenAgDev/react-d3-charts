@@ -101,7 +101,7 @@ const RunChart = (props) => {
         );
     };
 
-    return Chart(
+    return (
         <g className="run-chart">
             {xAxis()}
             {yAxis()}            
@@ -124,4 +124,4 @@ RunChart.propTypes = {
     valueAccessor: PropTypes.func.isRequired
 };
 
-export default RunChart;
+export default Chart(RunChart);

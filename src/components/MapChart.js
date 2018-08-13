@@ -72,7 +72,7 @@ const MapChart = (props) => {
         );
     }
 
-    return Chart(
+    return (
         <g className='map-chart'>
             <rect className='m-c-background' width={props.width} height={props.height} />
             <g>
@@ -96,4 +96,4 @@ MapChart.propTypes = {
     valueFormat: PropTypes.string.isRequired
 }
 
-export default MapChart;
+export default Chart(MapChart);

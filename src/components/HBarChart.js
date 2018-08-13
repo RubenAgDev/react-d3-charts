@@ -27,7 +27,7 @@ const HBarChart = (props) => {
 
     const valueFormat = d3.format(props.valueFormat);
 
-    return Chart(
+    return (
         <g className="h-bar-chart">
             { props.data.map((d, index) => {
                 return <g 
@@ -76,4 +76,4 @@ HBarChart.propTypes = {
     valueFormat: PropTypes.string.isRequired
 }
 
-export default HBarChart;
+export default Chart(HBarChart);
