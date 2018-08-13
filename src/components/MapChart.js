@@ -74,7 +74,11 @@ const MapChart = (props) => {
 
     return (
         <g className='map-chart'>
-            <rect className='m-c-background' width={props.width} height={props.height} />
+            <rect 
+                className='m-c-background'
+                fill='white'
+                width={props.width} 
+                height={props.height} />
             <g>
                 { countries() }
                 <path className='m-c-countries-borders'
