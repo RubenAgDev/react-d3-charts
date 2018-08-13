@@ -1,0 +1,38 @@
+{
+  "name": "react-d3-charts",
+  "version": "1.0.0",
+  "description": "React D3 Charts",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack -p --config webpack.prod.config.js --mode production",
+    "build:dev": "webpack --config webpack.dev.config.js --display-error-details  --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "npx styleguidist server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RubenAgDev/react-d3-charts.git"
+  },
+  "author": "Ruben Aguilar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RubenAgDev/react-d3-charts/issues"
+  },
+  "homepage": "https://github.com/RubenAgDev/react-d3-charts#readme",
+  "dependencies": {
+    "d3": "^5.5.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "topojson": "^3.0.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "react-styleguidist": "^7.2.2",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-merge": "^4.1.4"
+  }
+}
