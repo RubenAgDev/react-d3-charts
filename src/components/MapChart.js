@@ -4,6 +4,7 @@ import * as d3 from 'd3';
 import WorldCountries from '../rsc/world_countries.js';
 import * as topojson from 'topojson';
 import PropTypes from 'prop-types';
+import '../rsc/mapchart.css'
 
 const MapChart = (props) => {
     // Formating the value in the chart using D3
@@ -76,7 +77,6 @@ const MapChart = (props) => {
         <g className='map-chart'>
             <rect 
                 className='m-c-background'
-                fill='white'
                 width={props.width} 
                 height={props.height} />
             <g>

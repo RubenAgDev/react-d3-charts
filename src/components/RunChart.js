@@ -119,7 +119,7 @@ RunChart.propTypes = {
     data: PropTypes.any.isRequired,
     dateAccessor: PropTypes.func.isRequired,
     dateFormat: PropTypes.string.isRequired,
-    endDate: PropTypes.any.isRequired,
+    endDate: PropTypes.instanceOf(Date).isRequired,
     startDate: PropTypes.any.isRequired,
     valueAccessor: PropTypes.func.isRequired
 };

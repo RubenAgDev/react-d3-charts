@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import Chart from './Chart';
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../rsc/hbarchart.css';
 
 const HBarChart = (props) => {
     //Relative to the width of the SVG, sets the range of the scale:

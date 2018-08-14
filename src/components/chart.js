@@ -6,6 +6,9 @@ const getDisplayName = (WrappedChart) => {
   return WrappedChart.displayName || WrappedChart.name || 'Component';
 };
 
+/**
+ * HOC to build other charts
+ */
 export default (WrappedChart) => {
     class Chart extends React.Component {
         constructor(props) {
@@ -13,6 +16,7 @@ export default (WrappedChart) => {
 
             this.showTooltip = this.showTooltip.bind(this);
             this.hideTooltip = this.hideTooltip.bind(this);
+            this.saveTooltipRef = this.saveTooltipRef.bind(this);
         }
         /**
          * Displays a tooltip with the content and at the indicated position
@@ -22,13 +26,17 @@ export default (WrappedChart) => {
          */
         showTooltip(content, top, left) {
             this.tooltip.innerHTML = content;
-            this.tooltip.style.left = `${left}px`;
-            this.tooltip.style.top = `${top}px`;
+            this.tooltip.style.left = `${left + 10}px`;
+            this.tooltip.style.top = `${top + 10}px`;
             this.tooltip.style.display = 'block';
         }
 
         hideTooltip() {
             this.tooltip.style.display = 'none';
+        }
+
+        saveTooltipRef(div) {
+            this.tooltip = div;
         }
 
         render() {
@@ -51,7 +59,7 @@ export default (WrappedChart) => {
                     </div>
                     <div 
                         className="c-tooltip" 
-                        ref={(div) => { this.tooltip = div; }} 
+                        ref={this.saveTooltipRef} 
                         style={styles.tooltip}>
                     </div>
                 </div>
