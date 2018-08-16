@@ -1,4 +1,6 @@
-import * as d3 from 'd3';
+import * as d3Array from 'd3-array';
+import * as d3Scale from 'd3-scale';
+import * as d3Format from 'd3-format';
 import Chart from './Chart';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -12,7 +14,7 @@ const HBarChart = (props) => {
     //Relative to the data of the chart, sets the domain of the scale:
     //The max domain value is always the max value in the data plus a percentage
     const minDomainValue = 0;
-    const maxDomainValue = d3.max(props.data, props.valueAccessor) * 1.1;
+    const maxDomainValue = d3Array.max(props.data, props.valueAccessor) * 1.1;
     
     //Setting the vertical arrangement
     //if a height for the bars is not provided,
@@ -22,11 +24,11 @@ const HBarChart = (props) => {
     const verticalAlignment = barHeight / 2;
 
     //d3 scales for the chart    
-    const scale = d3.scaleLinear()
+    const scale = d3Scale.scaleLinear()
             .domain([minDomainValue, maxDomainValue])
             .range([minRangeValue, maxRangeValue]);
 
-    const valueFormat = d3.format(props.valueFormat);
+    const valueFormat = d3Format.format(props.valueFormat);
 
     return (
         <g className="h-bar-chart">

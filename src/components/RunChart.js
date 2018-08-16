@@ -1,22 +1,26 @@
-import * as d3 from 'd3';
+import * as d3Scale from 'd3-scale';
+import * as d3Format from 'd3-format';
+import * as d3TimeFormat from 'd3-time-format';
+import * as d3Array from 'd3-array';
+import * as d3Shape from 'd3-shape';
 import Axis from './Axis';
 import Chart from './Chart';
 import React from 'react';
 import PropTypes from 'prop-types';
 
 const RunChart = (props) => {
-    const percentageFormat = d3.format('.0%');
+    const percentageFormat = d3Format.format('.0%');
     const upIcon = "<i class='fa fa-chevron-up' aria-hidden='true'></i>";
     const downIcon = "<i class='fa fa-chevron-down' aria-hidden='true'></i>";
     // Relative to the data of the chart, gets the max value plus a percentage
-    const maxDomainValue = d3.max(props.data, props.valueAccessor) * 1.1;        
+    const maxDomainValue = d3Array.max(props.data, props.valueAccessor) * 1.1;        
 
     // Scales for the chart
-    const xScale = d3.scaleTime()
+    const xScale = d3Scale.scaleTime()
             .domain([props.startDate, props.endDate])
             .range([0, props.width]);
 
-    const yScale = d3.scaleLinear()
+    const yScale = d3Scale.scaleLinear()
             .domain([0, maxDomainValue])
             .range([props.height, 0]);
             
@@ -57,7 +61,7 @@ const RunChart = (props) => {
                 className="r-c-x-axis"
                 orient="bottom"
                 scale={xScale}
-                tickFormat={ d3.timeFormat(props.dateFormat) }
+                tickFormat={ d3TimeFormat.timeFormat(props.dateFormat) }
                 tickSize={6}
                 translate={`(0, ${props.height})`} />
         );
@@ -76,7 +80,7 @@ const RunChart = (props) => {
     };
 
     // Draws a line using d3
-    const line = d3.line()
+    const line = d3Shape.line()
         .x(xAccessor)
         .y(yAccessor);
 

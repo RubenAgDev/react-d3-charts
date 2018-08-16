@@ -1,4 +1,5 @@
-import * as d3 from 'd3';
+import * as d3Axis from 'd3-axis';
+import * as d3Selection from 'd3-selection';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -16,29 +17,29 @@ class Axis extends React.Component {
         const tickFormat = this.props.tickFormat || null;
         switch (this.props.orient) {
             case 'top':
-                axis = d3.axisTop(this.props.scale)
+                axis = d3Axis.axisTop(this.props.scale)
                     .tickFormat(tickFormat)
                     .tickSize(this.props.tickSize);
                 break;
             case 'bottom':
-                axis = d3.axisBottom(this.props.scale)
+                axis = d3Axis.axisBottom(this.props.scale)
                     .tickFormat(tickFormat)
                     .tickSize(this.props.tickSize);
                 break;
             case 'left':
-                axis = d3.axisLeft(this.props.scale)
+                axis = d3Axis.axisLeft(this.props.scale)
                     .tickFormat(tickFormat)
                     .tickSize(this.props.tickSize);
                 break;
             case 'right':
-                axis = d3.axisRight(this.props.scale)
+                axis = d3Axis.axisRight(this.props.scale)
                     .tickFormat(tickFormat)
                     .tickSize(this.props.tickSize);
                 break;
         }
 
         if(axis) {
-            d3.select(this.axis).call(axis);
+            d3Selection.select(this.axis).call(axis);
         }
     }
 

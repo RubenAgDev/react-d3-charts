@@ -1,6 +1,8 @@
 import React from 'react';
 import Chart from './Chart';
-import * as d3 from 'd3';
+import * as d3Array from 'd3-array';
+import * as d3Format from 'd3-format';
+import * as d3Geo from 'd3-geo';
 import WorldCountries from '../rsc/world_countries.js';
 import * as topojson from 'topojson';
 import PropTypes from 'prop-types';
@@ -8,16 +10,16 @@ import '../rsc/mapchart.css'
 
 const MapChart = (props) => {
     // Formating the value in the chart using D3
-    const valueFormat = d3.format(props.valueFormat);
+    const valueFormat = d3Format.format(props.valueFormat);
 
     // Number of 'ticks' for colors
     const ticks = props.ticks || 6;
 
     // Max value in the domain
-    const maxValue = d3.max(props.data, props.valueAccessor);
+    const maxValue = d3Array.max(props.data, props.valueAccessor);
 
     // Min value in the domain
-    const minValue = d3.min(props.data, props.valueAccessor);
+    const minValue = d3Array.min(props.data, props.valueAccessor);
 
     // Tick size calculation
     const tickSize = (maxValue - minValue) / ticks;
@@ -47,8 +49,8 @@ const MapChart = (props) => {
 
     // Returns a function that can render the actual map using a GeoJSON
     const path = () => {
-        return d3.geoPath()
-            .projection(d3.geoMercator()
+        return d3Geo.geoPath()
+            .projection(d3Geo.geoMercator()
             .scale((props.width + 1) / 2 / Math.PI)
             .translate([props.width / 2, props.height / 2]) // Centers the map in the container
             .precision(.1));
