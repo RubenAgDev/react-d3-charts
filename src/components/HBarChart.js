@@ -1,82 +1,113 @@
-import * as d3Array from 'd3-array';
-import * as d3Scale from 'd3-scale';
-import * as d3Format from 'd3-format';
-import Chart from './Chart';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { scaleLinear as d3ScaleLinear, scaleBand as d3ScaleBand } from 'd3-scale';
+import { format as d3Format } from 'd3-format';
+import Axis from './Axis';
 import '../rsc/hbarchart.css';
 
-const HBarChart = (props) => {
-    //Relative to the width of the SVG, sets the range of the scale:
-    const minRangeValue = props.width * 0.20;
-    const maxRangeValue = props.width * 0.65;
+/**
+ * Visualize any data in an Horizontal Bar Chart with the tags on the left and values on the right.
+ * <br />
+ * The bars are group using "data-" HTML attributes to style them by value ranges or index ranges, i.e:
+ * - data-chart-index={index}
+ * - data-chart-value={value}
+ * <br />
+ * <br />
+ * CSS selectors can be created using those attributes.
+ */
+function HBarChart(props) {
+    const scaleWidth = props.width - props.padding.left - props.padding.right;
+    const scaleHeight = props.height - props.padding.top - props.padding.bottom;
 
-    //Relative to the data of the chart, sets the domain of the scale:
-    //The max domain value is always the max value in the data plus a percentage
-    const minDomainValue = 0;
-    const maxDomainValue = d3Array.max(props.data, props.valueAccessor) * 1.1;
+    const valueFormat = d3Format(props.valueFormat);
+
+    const xScale = d3ScaleLinear()
+        .domain([props.minValue, props.maxValue])
+        .range([0, scaleWidth]);
+
+    const yScale = d3ScaleBand()
+        .rangeRound([0, scaleHeight])
+        .domain(props.data.map(props.tagAccessor))
+        .padding(props.barPadding);
+
+    // Height of the bars in the chart
+    const barHeight = yScale.bandwidth();
     
-    //Setting the vertical arrangement
-    //if a height for the bars is not provided,
-    //it will be calculated according to the number of items in data
-    const rowHeight = props.height / props.data.length;
-    const barHeight = props.barHeight || (rowHeight - 1);
-    const verticalAlignment = barHeight / 2;
-
-    //d3 scales for the chart    
-    const scale = d3Scale.scaleLinear()
-            .domain([minDomainValue, maxDomainValue])
-            .range([minRangeValue, maxRangeValue]);
-
-    const valueFormat = d3Format.format(props.valueFormat);
-
     return (
-        <g className="h-bar-chart">
-            { props.data.map((d, index) => {
-                return <g 
-                        data-chart-index={index}
-                        key={index}
-                        transform={`translate(0, ${index * rowHeight})`}>
-                        <text
-                            className="h-b-c-tag"
-                            textAnchor="start"
-                            x={0}
-                            y={verticalAlignment}>
-                            {props.tagAccessor(d)}
-                        </text>
-                        <line
-                            className="h-b-c-ref-line"
-                            x1={scale(minDomainValue)}
-                            x2={scale(minDomainValue) + scale(maxDomainValue)}
-                            y1={verticalAlignment}
-                            y2={verticalAlignment} />
-                        <rect
-                            className="h-b-c-bar"
-                            height={barHeight}
-                            width={scale(props.valueAccessor(d))}
-                            x={scale(minDomainValue)} />
-                        <text
-                            className="h-b-c-value"
-                            textAnchor="end"
-                            x={props.width}
-                            y={verticalAlignment}>
-                            {valueFormat(props.valueAccessor(d))}
-                        </text>
-                    </g>
-                })
-            }
-        </g>
+        <svg className='hbar-chart' width={props.width} height={props.height}>
+            <g transform={`translate(${props.padding.left}, ${props.padding.top})`}>
+                { props.data.map((d, index) => {
+                    const value = props.valueAccessor(d);
+                    const yCoord = yScale(props.tagAccessor(d));
+                    const barWidth = xScale(value);
+                    
+                    return (
+                        <g 
+                            data-chart-index={index}
+                            data-chart-value={value}
+                            key={index}>
+                            <rect
+                                height={barHeight}
+                                width={barWidth}
+                                x={0}
+                                y={yCoord} />
+                            <text
+                                x={barWidth + 3}
+                                y={yCoord + (barHeight / 2) + 4}>
+                                {props.valueFormat ? valueFormat(value) : value}
+                            </text>
+                        </g>
+                    );
+                })}
+                <Axis
+                    orient='left'
+                    scale={yScale}
+                    tickSize={0} />
+            </g>
+        </svg>
     );
-};
-
-HBarChart.displayName = 'HBarChart';
-
-HBarChart.propTypes = {
-    barHeight: PropTypes.number,
-    data: PropTypes.any.isRequired,
-    tagAccessor: PropTypes.func.isRequired,
-    valueAccessor: PropTypes.func.isRequired,
-    valueFormat: PropTypes.string.isRequired
 }
 
-export default Chart(HBarChart);
+HBarChart.propTypes = {
+    /** Padding between the bars */
+    barPadding: PropTypes.number,
+    /** Data for the chart */
+    data: PropTypes.array.isRequired,
+    /** Height of the chart. */
+    height: PropTypes.number.isRequired,
+    /** Max value for the bar. By default is 100 which represents 100% */
+    maxValue: PropTypes.number,
+    /** Min value for the bar. By default starts from 0 */
+    minValue: PropTypes.number,
+    /** Padding of the SVG. The Tags on the y-axis occupy the left padding and the values of the bars occupy the right padding */
+    padding: PropTypes.shape({
+        top: PropTypes.number,
+        right: PropTypes.number,
+        bottom: PropTypes.number,
+        left: PropTypes.number
+    }),
+    /** Function that provides access to the tags in data */
+    tagAccessor: PropTypes.func.isRequired,
+    /** Function that provides access to the values in data */
+    valueAccessor: PropTypes.func.isRequired,
+    /** Specified the format of the value if needed. See more: https://github.com/d3/d3-format */
+    valueFormat: PropTypes.string,
+    /** Width of the chart. */
+    width: PropTypes.number.isRequired
+};
+
+HBarChart.defaultProps = {
+    barPadding: 0.3,
+    padding: {
+        top: 0,
+        right: 30,
+        bottom: 0,
+        left: 100,
+    },
+    maxValue: 100,
+    minValue: 0,
+    showHeatMapColors: false,
+    valueFormat: '',
+};
+
+export default HBarChart;
