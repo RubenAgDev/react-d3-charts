@@ -10,7 +10,7 @@ import { rgb as d3Rgb } from 'd3-color';
 // eslint-disable-next-line no-unused-vars
 import { transition } from 'd3-transition'; // Required to decorate D3 elements with transition, although is not used explicity
 
-import '../assets/css/Gauge.css';
+import '../rsc/gauge.css';
 
 const DEFAULT_CONFIG = {
     arcInset: 20,
@@ -128,7 +128,7 @@ class Gauge extends React.PureComponent {
             // Drawing the filled segment in the gauge
             this.d3Refs.arc = arcs.append('path')
                 .attr('class', 'gauge-segment')
-                .attr('data-amber-chart-value', `${config.value}`)
+                .attr('data-chart-value', `${config.value}`)
                 .attr('d', d3Arc()
                     .innerRadius(r - arcWidth - config.arcInset)
                     .outerRadius(r - config.arcInset)
@@ -172,13 +172,13 @@ class Gauge extends React.PureComponent {
         }
 
         return (
-            <div className='amber-gauge'>
+            <div className='gauge'>
                 { this.props.heading }
-                <div className='amber-gauge-data'>
-                    <span className='amber-gauge-value'>{value}</span>{this.props.differential && <span className={`amber-gauge-differential${this.props.differential.startsWith('-') ? '-red' : '-green'}`}>{this.props.differential}</span>}
+                <div className='gauge-data'>
+                    <span className='gauge-value'>{value}</span>{this.props.differential && <span className={`gauge-differential${this.props.differential.startsWith('-') ? '-red' : '-green'}`}>{this.props.differential}</span>}
                 </div>
                 <div ref={(el) => this.gaugeDiv = el} />
-                <div className='amber-gauge-footer' style={{ marginTop: `-${this.props.height / 2.5}px` }}>
+                <div className='gauge-footer' style={{ marginTop: `-${this.props.height / 2.5}px` }}>
                     { this.props.footer }
                 </div>
             </div>
