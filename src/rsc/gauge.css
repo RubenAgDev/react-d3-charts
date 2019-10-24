@@ -1,0 +1,39 @@
+.gauge {
+    text-align: center;
+}
+
+.gauge .gauge-arc {
+    fill: var(--border-divider-color);
+}
+
+.gauge .gauge-segment {
+    fill: var(--brand-primary-color);
+}
+
+.gauge .gauge-pointer {
+    fill: black;
+}
+
+.gauge .gauge-data {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.gauge .gauge-value {
+    font-size: 1.5rem;
+}
+
+.gauge .gauge-differential-green,
+.gauge .gauge-differential-red {
+    padding: 0.5rem 0 0 0.25rem;
+    font-size: 0.8rem;
+}
+
+.gauge .gauge-differential-green {
+    color: var(--valid-feedback-color);
+}
+
+.gauge .gauge-differential-red {
+    color: var(--invalid-feedback-color);
+}
