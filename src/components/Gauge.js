@@ -5,9 +5,11 @@ import { easeQuadInOut as d3EaseQuadInOut } from 'd3-ease';
 import { format as d3Format } from 'd3-format';
 import { scaleLinear as d3ScaleLinear } from 'd3-scale';
 import { select as d3Select } from 'd3-selection';
+import { interpolateHsl as d3InterpolateHsl } from 'd3-interpolate';
+import { rgb as d3Rgb } from 'd3-color';
 // eslint-disable-next-line no-unused-vars
 import { transition } from 'd3-transition'; // Required to decorate D3 elements with transition, although is not used explicity
-import Helpers from '../utils/Helpers';
+
 import '../assets/css/Gauge.css';
 
 const DEFAULT_CONFIG = {
@@ -22,6 +24,10 @@ const DEFAULT_CONFIG = {
 
 const deg2Rad = (deg) => {
     return deg * (Math.PI / 180);
+};
+
+const heatMapColorFinder = (startColor = '#e82609', endColor = '#7ffa5d') => {
+    return d3InterpolateHsl(d3Rgb(startColor), d3Rgb(endColor));
 };
 
 /**
@@ -83,7 +89,7 @@ class Gauge extends React.PureComponent {
             for (let i = 0; i < noTicks; i++) {
                 tickData[i] = 1 / noTicks;
             }
-            const arcColorFinder = Helpers.heatMapColorFinder(config.startColor, config.endColor);
+            const arcColorFinder = heatMapColorFinder(config.startColor, config.endColor);
             const tickArc = d3Arc()
                 .innerRadius(r - arcWidth - config.arcInset)
                 .outerRadius(r - config.arcInset)
